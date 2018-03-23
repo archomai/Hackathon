@@ -16,16 +16,11 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = os.path.dirname(BASE_DIR)
 
-# SECRET_KEY 는 ./
+# 실제 SECRET_KEY 는 ./secret/base.json 으로 이동
 SECRET_DIR = os.path.join(ROOT_DIR, '.secret')
 SECRET_BASE = os.path.join(SECRET_DIR, 'base.json')
 secrets_base = json.loads(open(SECRET_BASE, 'rt').read())
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = secrets_base['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
