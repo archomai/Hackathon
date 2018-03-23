@@ -43,11 +43,21 @@ function initMap() {
 }
 
 function loadRestaurants(){
-    yogi.restaurants = [
-        {label: '행복밥상', position: {lat: 37.516782, lng: 127.02256}, restaurantPk: 1},
-        {label: '이태리부대찌개', position: {lat: 37.517883, lng: 127.023607}, restaurantPk: 2},
-        {label: '카페', position: {lat: 37.518984, lng: 127.024708}, restaurantPk: 3}
-    ]
+
+    $.ajax({
+        url: "http://localhost:8000/api/restaurant/",
+        success: function (result) {
+            yogi.restaurants = result.map(function(restaurant){
+                return {
+                    label: restaurant.name,
+                    position: {lat: restaurant.lat, lng: restaurant.lng},
+                    restaurantPk: restaurant.id,
+                    rating: restaurant._restaurant_rate
+                }
+            });
+        },
+        async: false
+    });
 
     var restaurantList = $("#restaurants");
 
@@ -60,6 +70,7 @@ function loadRestaurants(){
         var listItem = $("#restaurant-template").clone();
         listItem.attr('id', 'restaurant_'+restaurant.restaurantPk);
         listItem.find('.restaurant-name').text(restaurant.label);
+        listItem.find('.restaurant-rating').text(restaurant.rating);
         listItem.on("click", restaurantSelect);
         restaurantList.append(listItem);
 

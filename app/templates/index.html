@@ -41,7 +41,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form id="restaurantAddForm">
           <div class="form-group">
             <label for="restaurant-name" class="col-form-label">음식점 이름:</label>
             <input type="text" class="form-control" id="restaurant-name" name="restaurant-name">
@@ -62,7 +62,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-        <button type="button" class="btn btn-primary">평점 등록</button>
+        <button type="button" id="restaurantAddFormSubmit" class="btn btn-primary">평점 등록</button>
       </div>
     </div>
   </div>
@@ -79,6 +79,11 @@ $(function(){
       dataType: 'json'
     }
     */
+  });
+
+  $("#restaurantAddFormSubmit")
+  .on("click", function(){
+
   });
 });
 </script>
