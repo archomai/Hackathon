@@ -6,15 +6,16 @@ class Restaurant(models.Model):
     name = models.CharField(max_length=200)
     lat = models.FloatField(blank=True, null=True)
     lng = models.FloatField(blank=True, null=True)
-    restaurant_rate = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
+    _restaurant_rate = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
 
     def __str__(self):
         return self.name
 
-    def avg_restaurant_rate(self, restaurant_pk):
-        ratings = Rating.objects.filter(restaurant__pk=restaurant_pk)
+    def avg_restaurant_rate(self):
+        ratings = Rating.objects.filter(restaurant__pk=self.pk)
         avg = ratings.aggregate(Avg('menu_rate'))
-        return avg['menu_rate__avg']
+        self._restaurant_rate = avg['menu_rate__avg']
+    restaurant_rate = property(avg_restaurant_rate)
 
 
 class MenuList(models.Model):
