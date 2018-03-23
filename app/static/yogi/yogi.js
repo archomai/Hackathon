@@ -11,6 +11,15 @@ var yogi = {
 }
 
 
+$(function(){
+  $('#restaurant-menu-select').select2({
+    tags: true,
+    tokenSeparators: [',', ' '],
+  });
+  $("#restaurantAddFormSubmit").on("click", restaurantAddFunc);
+});
+
+
 function initMap() {
 
     // 구글맵 시작
@@ -109,3 +118,87 @@ function restaurantSelect() {
     $('#restaurants > li.active').removeClass('active');
     $('#restaurant_'+pk).addClass('active');
 }
+
+function restaurantAddFunc(){
+    var r_name = $('#restaurant-name');
+    var r_menu = $('#restaurant-menu-select');
+    var u_memo = $('#user-memo');
+    var u_rate = $('input[name="user-rating"]:checked');
+
+    r_name.val( r_name.val().trim() );
+    u_memo.val( u_memo.val().trim() );
+
+    if( r_name.val() == '' ) {
+      alert( '식당이름을 입력해 주세요');
+      r_name.focus();
+      return false;
+    }
+    if( r_menu.val() == '' ) {
+        alert('평점을 부여할 메뉴를 입력해 주세요.');
+        r_menu.focus();
+        return false;
+    }
+    if( u_memo.val() == '' ) {
+        alert('한줄평을 입력해 주세요.');
+        u_name.focus();
+        return false;
+    }
+    if( u_rate.val() == '' ) {
+        alert('평점을 선택해 주세요.');
+        return false;
+    }
+
+
+    var newRestaurantPK = '';
+    var newMenuComboPK = '';
+
+    // 음식점 등록
+    axios({
+      method: 'post',
+      url: "http://localhost:8000/api/restaurant/",
+      headers: {'Content-Type': 'application/json'},
+      data: {
+        "name": r_name.val(),
+        "lat": yogi.userMarker.getPosition().toJSON().lat,
+        "lng": yogi.userMarker.getPosition().toJSON().lng
+      }
+    })
+    .then(function(response){
+        newRestaurantPK = response.id;
+
+        // 메뉴 콤보 등록
+        axios({
+          method: 'post',
+          url: "http://localhost:8000/api/menucombo/",
+          headers: {'Content-Type': 'application/json'},
+          data: {
+            "menu_combo": r_menu.val(),
+            "restaurant": newRestaurantPK
+          }
+        })
+        .then(function(response){
+            newMenuComboPK = response.id;
+
+            // 메뉴 레이팅 등록
+            axios({
+              method: 'post',
+              url: "http://localhost:8000/api/rating/",
+              headers: {'Content-Type': 'application/json'},
+              data: {
+                "menu_rate": u_rate.val(),
+                "restaurant": newRestaurantPK,
+                "menucombo": newMenuComboPK
+              }
+            })
+            .then(function(response){
+                newMenuComboPK = response.id;
+            });
+        });
+    });
+
+
+
+
+
+
+  }

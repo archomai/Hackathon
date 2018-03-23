@@ -51,12 +51,23 @@
             <select multiple="multiple" id="restaurant-menu-select" name="restaurant-menu-select" style="width:100%"></select>
           </div>
           <div class="form-group">
-            <label for="user-name" class="col-form-label">작성자 이름:</label>
-            <input type="text" class="form-control" id="user-name" name="user-name">
+            <label for="user-memo" class="col-form-label">한줄평:</label>
+            <input type="text" class="form-control" id="user-memo" name="user-memo">
           </div>
           <div class="form-group">
-            <label for="user-rating" class="col-form-label">점수:</label>
-            <input type="text" class="form-control" id="user-rating" name="user-rating">
+            <label class="col-form-label">점수:</label>
+            <div class="form-check form-check-inline">
+              <label class="form-check-label" for="user-rating1">&nbsp;1&nbsp;</label>
+              <input class="form-check-input" type="radio" id="user-rating1" name="user-rating" value="1">
+              <label class="form-check-label" for="user-rating2">&nbsp;2&nbsp;</label>
+              <input class="form-check-input" type="radio" id="user-rating2" name="user-rating" value="2">
+              <label class="form-check-label" for="user-rating3">&nbsp;3&nbsp;</label>
+              <input class="form-check-input" type="radio" id="user-rating3" name="user-rating" value="3">
+              <label class="form-check-label" for="user-rating4">&nbsp;4&nbsp;</label>
+              <input class="form-check-input" type="radio" id="user-rating4" name="user-rating" value="4">
+              <label class="form-check-label" for="user-rating5">&nbsp;5&nbsp;</label>
+              <input class="form-check-input" type="radio" id="user-rating5" name="user-rating" value="5">
+            </div>
           </div>
         </form>
       </div>
@@ -68,23 +79,4 @@
   </div>
 </div>
 
-<script>
-$(function(){
-  $('#restaurant-menu-select').select2({
-    tags: ['김치찌개', '계란말이', '막걸리'],
-    tokenSeparators: [',', ' '],
-    /*
-    ajax: {
-      url: 'https://api.github.com/search/repositories',
-      dataType: 'json'
-    }
-    */
-  });
-
-  $("#restaurantAddFormSubmit")
-  .on("click", function(){
-
-  });
-});
-</script>
 {% endblock %}

@@ -8,6 +8,10 @@ class RestaurantView(generics.ListCreateAPIView):
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer
 
+    def get(self, request, *args, **kwargs):
+        print(request.data)
+        return super().get(request, *args, **kwargs)
+
 
 class MenuListView(generics.ListCreateAPIView):
     queryset = MenuList.objects.all()
