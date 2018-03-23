@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg
 
 
 class Restaurant(models.Model):
@@ -10,15 +11,17 @@ class Restaurant(models.Model):
         return self.name
 
     def avg_menu_rate(self, restaurant_pk):
-        menu_rates = Rating.objects.all()
+        ratings = Rating.objects.filter(menu__restaurant__pk=restaurant_pk)
+        avg = ratings.aggregate(Avg('menu_rate'))
+        return avg['menu_rate__avg']
 
 
 class Menu(models.Model):
     menu = models.CharField(max_length=100)
     restaurant = models.ForeignKey(
         'restaurant',
+        related_name='menu',
         on_delete=models.CASCADE,
-        verbose_name='식당'
     )
 
     def __str__(self):
@@ -33,9 +36,10 @@ class Rating(models.Model):
         (4, 4),
         (5, 5),
     )
-    menu_rate = models.DecimalField(choices=RATING_CHOICES, max_digits=2, decimal_places=1)
+    menu_rate = models.IntegerField(choices=RATING_CHOICES)
     menu = models.ForeignKey(
         'menu',
+        related_name='rating',
         on_delete=models.CASCADE,
     )
 
