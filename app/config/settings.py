@@ -44,6 +44,8 @@ INSTALLED_APPS = [
 
     'members',
     'restaurants',
+
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
