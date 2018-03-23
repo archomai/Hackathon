@@ -22,20 +22,20 @@ function initMap() {
     // 구글 맵 geolocation 현재 위치
     var infoWindow = new google.maps.InfoWindow({map: map});
     infoWindow.setPosition(currentLocation);
-    infoWindow.setContent('현재위치');
+    infoWindow.setContent('대기빌딩');
 
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('현재위치');
-            map.setCenter(pos);
-        });
-    }
+//    if (navigator.geolocation) {
+//        navigator.geolocation.getCurrentPosition(function(position) {
+//            var pos = {
+//                lat: position.coords.latitude,
+//                lng: position.coords.longitude
+//            };
+//
+//            infoWindow.setPosition(pos);
+//            infoWindow.setContent('현재위치');
+//            map.setCenter(pos);
+//        });
+//    }
 
     // 마커 클러스터 추가
     var locations = [
