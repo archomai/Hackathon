@@ -4,7 +4,8 @@ from django.db.models import Avg
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=200)
-    address = models.CharField(max_length=200, blank=True)
+    lat = models.FloatField(blank=True, null=True)
+    lng = models.FloatField(blank=True, null=True)
     restaurant_rate = models.DecimalField(max_digits=2, decimal_places=1, blank=True, null=True)
 
     def __str__(self):
