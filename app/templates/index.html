@@ -12,6 +12,74 @@
 {% block content %}
 <div class="row">
   <div id="map" class="col-8"></div>
-  <div class="col-4">col-4</div>
+  <div id="restaurants-area" class="col-4">
+    <ul id="restaurants" class="list-group">
+      <li id="restaurant-add" class="list-group-item">
+        <span class="restaurant-name">요기요?</span>
+        <button type="button" class="btn btn-sm btn-info float-right" data-toggle="modal" data-target="#restaurantAddModal"><i class="far fa-check-circle"></i> </button>
+        <div class="clearfix"></div>
+      </li>
+    </ul>
+  </div>
 </div>
+
+<li id="restaurant-template" class="list-group-item">
+  <span class="restaurant-name"></span>
+  <span class="restaurant-rating badge badge-warning">4</span>
+  <button type="button" class="btn btn-sm btn-info float-right"><i class="fas fa-tags"></i> </button>
+  <div class="clearfix"></div>
+</li>
+
+<!-- 음식점 등록 -->
+<div class="modal fade" id="restaurantAddModal" tabindex="-1" role="dialog" aria-labelledby="restaurantAddModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="restaurantAddModalLabel">요기요때?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="restaurant-name" class="col-form-label">음식점 이름:</label>
+            <input type="text" class="form-control" id="restaurant-name" name="restaurant-name">
+          </div>
+          <div class="form-group">
+            <label for="restaurant-menu-select" class="col-form-label">선택메뉴:</label><br>
+            <select multiple="multiple" id="restaurant-menu-select" name="restaurant-menu-select" style="width:100%"></select>
+          </div>
+          <div class="form-group">
+            <label for="user-name" class="col-form-label">작성자 이름:</label>
+            <input type="text" class="form-control" id="user-name" name="user-name">
+          </div>
+          <div class="form-group">
+            <label for="user-rating" class="col-form-label">점수:</label>
+            <input type="text" class="form-control" id="user-rating" name="user-rating">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-primary">평점 등록</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(function(){
+  $('#restaurant-menu-select').select2({
+    tags: ['김치찌개', '계란말이', '막걸리'],
+    tokenSeparators: [',', ' '],
+    /*
+    ajax: {
+      url: 'https://api.github.com/search/repositories',
+      dataType: 'json'
+    }
+    */
+  });
+});
+</script>
 {% endblock %}

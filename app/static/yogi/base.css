@@ -1,3 +1,9 @@
-html, body{width:100%; height:100%;}
+html, body{width:100%; height:100%; padding: 10px;}
 #content-wrap {height:100%;}
 #content-wrap > .row {height:100%;}
+
+#restaurants > li.acitve {text-primary}
+#restaurants .restaurant-name {line-height:31px; vertical-align:middle;}
+#restaurants #restaurant-add {display: none;}
+
+#restaurant-template {display: none;}
