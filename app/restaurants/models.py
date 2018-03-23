@@ -20,10 +20,13 @@ class Restaurant(models.Model):
 class MenuList(models.Model):
     menu = models.CharField(max_length=100)
     restaurant = models.ForeignKey(
-        'restaurant',
+        Restaurant,
         related_name='menulist',
         on_delete=models.CASCADE,
     )
+
+    def __str__(self):
+        return f'{self.restaurant.name} | {self.menu}'
 
 
 class MenuCombo(models.Model):
@@ -35,7 +38,7 @@ class MenuCombo(models.Model):
     )
 
     def __str__(self):
-        return f'{self.restaurant.name} | {self.menu}'
+        return f'{self.restaurant.name} | {self.menu_combo}'
 
 
 class Rating(models.Model):
@@ -60,7 +63,7 @@ class Rating(models.Model):
     )
 
     def __str__(self):
-        return f'{self.restaurant.name} | {self.menucombo.menu} | {self.menu_rate}'
+        return f'{self.restaurant.name} | {self.menucombo.menu_combo} | {self.menu_rate}'
 
     def avg_menu_rate(self, menucombo_pk):
         ratings = Rating.objects.filter(menucombo__pk=menucombo_pk)
