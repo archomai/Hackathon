@@ -1,2 +1,17 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
+{% block head %}
+<link rel="stylesheet" href="{% static 'yogi/base.css' %}">
+<script src="{% static 'yogi/yogi.js' %}"></script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSNCqL828z2pbpr_Y8xyRAQvEyCmjLIRk&callback=initMap"></script>
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div id="map" class="col-8"></div>
+  <div class="col-4">col-4</div>
+</div>
+{% endblock %}
