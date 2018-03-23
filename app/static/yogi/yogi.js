@@ -5,7 +5,8 @@ var yogi = {
         lat: 37.515782,
         lng: 127.021506
     },
-    restaurants: ''
+    restaurants: '',
+    userMarker: ''
 }
 
 
@@ -22,6 +23,20 @@ function initMap() {
     infoWindow.setPosition(yogi.defaultLocation);
     infoWindow.setContent(yogi.defaultLocation.label);
 
+    map.addListener('click', function(e) {
+        if(yogi.userMarker){
+            yogi.userMarker.setMap(null);
+        }
+        var marker = new google.maps.Marker({
+            position: e.latLng,
+            map: map,
+            draggable: true,
+            raiseOnDrag: true,
+            label: '요기요때'
+        });
+        yogi.userMarker = marker;
+    });
+
     loadRestaurants();
 }
 
@@ -29,7 +44,7 @@ function loadRestaurants(){
     yogi.restaurants = [
         {label: '행복밥상', position: {lat: 37.516782, lng: 127.02256}, restaurantPk: 1},
         {label: '이태리부대찌개', position: {lat: 37.517883, lng: 127.023607}, restaurantPk: 2},
-        {label: '카', position: {lat: 37.518984, lng: 127.024708}, restaurantPk: 3}
+        {label: '카페', position: {lat: 37.518984, lng: 127.024708}, restaurantPk: 3}
     ]
 
     var restaurantList = $("#restaurants");
