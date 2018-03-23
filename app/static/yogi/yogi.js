@@ -12,44 +12,35 @@ function initMap() {
         center: currentLocation
     });
 
-
-    // 현재위치 마커 추가
-//    var marker = new google.maps.Marker({
-//        position: currentLocation,
-//        map: map
-//    });
-
     // 구글 맵 geolocation 현재 위치
     var infoWindow = new google.maps.InfoWindow({map: map});
     infoWindow.setPosition(currentLocation);
-    infoWindow.setContent('현재위치');
-
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('현재위치');
-            map.setCenter(pos);
-        });
-    }
+    infoWindow.setContent('대기빌딩');
 
     // 마커 클러스터 추가
     var locations = [
-        {name: '식당1', lat: 37.516782, lng: 127.022506},
-        {name: '식당2', lat: 37.517883, lng: 127.023607},
-        {name: '식당3', lat: 37.518984, lng: 127.024708}
+        {label: '식당1', position: {lat: 37.516782, lng: 127.022506}, customNum: 1},
+        {label: '식당2', position: {lat: 37.517883, lng: 127.023607}, customNum: 2},
+        {label: '식당3', position: {lat: 37.518984, lng: 127.024708}, customNum: 3}
     ]
     var markers = locations.map(function(location, i) {
-      return new google.maps.Marker({
-        position: {lat: location.lat, lng: location.lng},
-        label: location.name
-      });
+        var marker = new google.maps.Marker(location);
+        marker.addListener('click', function(event) {
+            map.setCenter(marker.getPosition());
+            console.log(event);
+            console.log(marker);
+            changeDom(marker.customNum);
+        });
+        return marker
     });
     var markerCluster = new MarkerClusterer(map, markers,
             {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 
+}
+
+function changeDom(i) {
+    $('ul > li:nth-child('+i+')').text('selected');
+}
+
+function loadRestaurants(){
 }
