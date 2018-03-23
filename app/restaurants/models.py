@@ -17,11 +17,20 @@ class Restaurant(models.Model):
         return avg['menu_rate__avg']
 
 
-class Menu(models.Model):
+class MenuList(models.Model):
     menu = models.CharField(max_length=100)
     restaurant = models.ForeignKey(
         'restaurant',
-        related_name='menu',
+        related_name='menulist',
+        on_delete=models.CASCADE,
+    )
+
+
+class MenuCombo(models.Model):
+    menu_combo = models.CharField(max_length=300)
+    restaurant = models.ForeignKey(
+        'restaurant',
+        related_name='menucombo',
         on_delete=models.CASCADE,
     )
 
@@ -39,8 +48,8 @@ class Rating(models.Model):
     )
     menu_rate = models.IntegerField(choices=RATING_CHOICES)
     comment = models.CharField(max_length=500, blank=True)
-    menu = models.ForeignKey(
-        'menu',
+    menucombo = models.ForeignKey(
+        'menucombo',
         related_name='rating',
         on_delete=models.CASCADE,
     )
@@ -51,9 +60,9 @@ class Rating(models.Model):
     )
 
     def __str__(self):
-        return f'{self.restaurant.name} | {self.menu.menu} | {self.menu_rate}'
+        return f'{self.restaurant.name} | {self.menucombo.menu} | {self.menu_rate}'
 
-    def avg_menu_rate(self, menu_pk):
-        ratings = Rating.objects.filter(menu__pk=menu_pk)
+    def avg_menu_rate(self, menucombo_pk):
+        ratings = Rating.objects.filter(menucombo__pk=menucombo_pk)
         avg = ratings.aggregate(Avg('menu_rate'))
         return avg['menu_rate__avg']

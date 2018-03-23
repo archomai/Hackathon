@@ -1,9 +1,10 @@
 from django.contrib import admin
 
-from .models import Restaurant, Menu, Rating
+from .models import Restaurant, MenuList, Rating, MenuCombo
 
 admin.site.register(Restaurant)
-admin.site.register(Menu)
+admin.site.register(MenuList)
+admin.site.register(MenuCombo)
 admin.site.register(Rating)
 
 
