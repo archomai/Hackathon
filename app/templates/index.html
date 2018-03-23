@@ -12,8 +12,15 @@
 {% block content %}
 <div class="row">
   <div id="map" class="col-8"></div>
-  <div id="restaurants" class="col-4">
-    <ul class="list-group"></ul>
+  <div id="restaurants-area" class="col-4">
+    <ul id="restaurants" class="list-group"></ul>
   </div>
 </div>
+
+<li id="restaurant-template" class="list-group-item">
+  <span class="restaurant-name"></span>
+  <span class="restaurant-rating badge badge-warning">4</span>
+  <button type="button" class="btn btn-sm btn-info float-right"><i class="fas fa-tags"></i> </button>
+  <div class="clearfix"></div>
+</li>
 {% endblock %}

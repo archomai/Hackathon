@@ -1,35 +1,54 @@
-
-function initMap() {
-    var currentLocation = {
-        label: '기본위치',
+var map = ''
+var yogi = {
+    defaultLocation: {
+        label: '대기빌딩',
         lat: 37.515782,
         lng: 127.021506
-    }
+    },
+    restaurants: ''
+}
+
+
+function initMap() {
 
     // 구글맵 시작
-    var map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById('map'), {
         zoom: 17,
-        center: currentLocation
+        center: yogi.defaultLocation
     });
 
-    // 구글 맵 geolocation 현재 위치
+    // 구글 맵 기본위치 표시
     var infoWindow = new google.maps.InfoWindow({map: map});
-    infoWindow.setPosition(currentLocation);
-    infoWindow.setContent('대기빌딩');
+    infoWindow.setPosition(yogi.defaultLocation);
+    infoWindow.setContent(yogi.defaultLocation.label);
 
-    // 마커 클러스터 추가
-    var locations = [
-        {label: '식당1', position: {lat: 37.516782, lng: 127.022506}, customNum: 1},
-        {label: '식당2', position: {lat: 37.517883, lng: 127.023607}, customNum: 2},
-        {label: '식당3', position: {lat: 37.518984, lng: 127.024708}, customNum: 3}
+    loadRestaurants();
+}
+
+function loadRestaurants(){
+    yogi.restaurants = [
+        {label: '행복밥상', position: {lat: 37.516782, lng: 127.02256}, restaurantPk: 1},
+        {label: '이태리부대찌개', position: {lat: 37.517883, lng: 127.023607}, restaurantPk: 2},
+        {label: '카', position: {lat: 37.518984, lng: 127.024708}, restaurantPk: 3}
     ]
-    var markers = locations.map(function(location, i) {
-        var marker = new google.maps.Marker(location);
+
+    var restaurantList = $("#restaurants");
+
+    // 음식점 리스트 추가 및 마커 클러스터 추가
+    var markers = yogi.restaurants.map(function(restaurant, i) {
+        // 리스트 추가
+        var listItem = $("#restaurant-template").clone();
+        listItem.attr('id', 'restaurant_'+restaurant.restaurantPk);
+        listItem.find('.restaurant-name').text(restaurant.label);
+        listItem.on("click", restaurantSelect);
+        restaurantList.append(listItem);
+
+        // 마커생성
+        var marker = new google.maps.Marker(restaurant);
+        restaurant.marker = marker; // 마커를 참조하기 위해 할당한다.
         marker.addListener('click', function(event) {
             map.setCenter(marker.getPosition());
-            console.log(event);
-            console.log(marker);
-            changeDom(marker.customNum);
+            restaurantActive(marker.restaurantPk);
         });
         return marker
     });
@@ -38,9 +57,17 @@ function initMap() {
 
 }
 
-function changeDom(i) {
-    $('ul > li:nth-child('+i+')').text('selected');
-}
 
-function loadRestaurants(){
+function restaurantSelect() {
+    var pk = this.id.split('_')[1];
+    restaurantActive(pk);
+
+    restaurant = yogi.restaurants.find(function(restaurant){
+        return restaurant.restaurantPk == pk
+    });
+    map.setCenter(restaurant.marker.getPosition());
+}
+function restaurantActive(pk) {
+    $('#restaurants > li.active').removeClass('active');
+    $('#restaurant_'+pk).addClass('active');
 }
