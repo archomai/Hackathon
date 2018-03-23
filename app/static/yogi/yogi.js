@@ -2,8 +2,8 @@
 function initMap() {
     var currentLocation = {
         label: '기본위치',
-        lat: 37.505782,
-        lng: 127.011506
+        lat: 37.515782,
+        lng: 127.021506
     }
 
     // 구글맵 시작
@@ -12,14 +12,18 @@ function initMap() {
         center: currentLocation
     });
 
+
     // 현재위치 마커 추가
-    var marker = new google.maps.Marker({
-        position: currentLocation,
-        map: map
-    });
+//    var marker = new google.maps.Marker({
+//        position: currentLocation,
+//        map: map
+//    });
 
     // 구글 맵 geolocation 현재 위치
     var infoWindow = new google.maps.InfoWindow({map: map});
+    infoWindow.setPosition(currentLocation);
+    infoWindow.setContent('현재위치');
+
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {
@@ -30,8 +34,6 @@ function initMap() {
             infoWindow.setPosition(pos);
             infoWindow.setContent('현재위치');
             map.setCenter(pos);
-
-            console.log('found!!!');
         });
     }
 
