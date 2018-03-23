@@ -1,4 +1,5 @@
-var map = ''
+var map = '';
+var infoWindow = '';
 var yogi = {
     defaultLocation: {
         label: '대기빌딩',
@@ -19,7 +20,7 @@ function initMap() {
     });
 
     // 구글 맵 기본위치 표시
-    var infoWindow = new google.maps.InfoWindow({map: map});
+    infoWindow = new google.maps.InfoWindow({map: map});
     infoWindow.setPosition(yogi.defaultLocation);
     infoWindow.setContent(yogi.defaultLocation.label);
 
@@ -32,8 +33,9 @@ function initMap() {
             map: map,
             draggable: true,
             raiseOnDrag: true,
-            label: '요기요때'
+            label: '요기요?'
         });
+        $("#restaurant-add").show();
         yogi.userMarker = marker;
     });
 
@@ -48,6 +50,9 @@ function loadRestaurants(){
     ]
 
     var restaurantList = $("#restaurants");
+
+    // 사용자 추가 위치 리스트 아이템 클릭 이벤트
+    $("#restaurant-add").on('click', currentLocationSelect);
 
     // 음식점 리스트 추가 및 마커 클러스터 추가
     var markers = yogi.restaurants.map(function(restaurant, i) {
@@ -72,17 +77,24 @@ function loadRestaurants(){
 
 }
 
+function currentLocationSelect() {
+    // 구글맵 이동
+    map.setCenter(yogi.userMarker.getPosition());
 
+    // 리스트 아이템 클래스 변경
+    $('#restaurants > li.active').removeClass('active');
+    $(this).addClass('active');
+}
 function restaurantSelect() {
     var pk = this.id.split('_')[1];
-    restaurantActive(pk);
 
+    // 구글맵 이동
     restaurant = yogi.restaurants.find(function(restaurant){
         return restaurant.restaurantPk == pk
     });
     map.setCenter(restaurant.marker.getPosition());
-}
-function restaurantActive(pk) {
+
+    // 리스트 아이템 클래스 변경
     $('#restaurants > li.active').removeClass('active');
     $('#restaurant_'+pk).addClass('active');
 }
