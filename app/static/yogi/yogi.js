@@ -184,7 +184,8 @@ function restaurantAddFunc(){
               data: {
                 "menu_rate": u_rate.val(),
                 "restaurant": newRestaurantPK,
-                "menucombo": newMenuComboPK
+                "menucombo": newMenuComboPK,
+                "comment": u_memo.val()
               }
             })
             .then(function(response){
