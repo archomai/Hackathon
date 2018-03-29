@@ -11,13 +11,8 @@ class Restaurant(models.Model):
     def __str__(self):
         return self.name
 
-    def avg_restaurant_rate(self):
-        ratings = Rating.objects.filter(restaurant=self)
-        avg = ratings.aggregate(Avg('menu_rate'))
-        return avg['menu_rate__avg']
-
     class Meta:
-        ordering = ['restaurant_rate']
+        ordering = ['-restaurant_rate']
 
 
 class MenuList(models.Model):
@@ -44,10 +39,8 @@ class MenuCombo(models.Model):
     def __str__(self):
         return f'{self.restaurant.name} | {self.menu_combo}'
 
-    # def avg_menucombo_rate(self):
-    #     ratings = Rating.objects.filter(menucombo=self.menucombo)
-    #     avg = ratings.aggregate(Avg('menu_rate'))
-    #     return avg['menu_rate__avg']
+    class Meta:
+        ordering = ['-menu_combo_rate']
 
 
 class Rating(models.Model):
@@ -74,9 +67,5 @@ class Rating(models.Model):
     def __str__(self):
         return f'{self.restaurant.name} | {self.menucombo.menu_combo} | {self.menu_rate}'
 
-    def save(self, *args, **kwargs):
-        ratings = Rating.objects.filter(menucombo=self.menucombo)
-        avg = ratings.aggregate(Avg('menu_rate'))
-        self.menucombo.menu_combo_rate = avg['menu_rate__avg']
-        super(Rating, self).save(*args, **kwargs)
-        print('done')
+
+
