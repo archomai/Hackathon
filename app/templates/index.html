@@ -5,8 +5,8 @@
 <link rel="stylesheet" href="{% static 'yogi/base.css' %}">
 <script src="{% static 'yogi/yogi.js' %}"></script>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSNCqL828z2pbpr_Y8xyRAQvEyCmjLIRk&callback=initMap"></script>
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSNCqL828z2pbpr_Y8xyRAQvEyCmjLIRk&callback=initMap"></script>
 {% endblock %}
 
 {% block content %}
@@ -25,7 +25,7 @@
 
 <li id="restaurant-template" class="list-group-item">
   <span class="restaurant-name"></span>
-  <span class="restaurant-rating badge badge-warning">4</span>
+  <span class="restaurant-rating badge badge-warning">0</span>
   <button type="button" class="btn btn-sm btn-info float-right"><i class="fas fa-tags"></i> </button>
   <div class="clearfix"></div>
 </li>

@@ -149,9 +149,6 @@ function restaurantAddFunc(){
     }
 
 
-    var newRestaurantPK = '';
-    var newMenuComboPK = '';
-
     // 음식점 등록
     axios({
       method: 'post',
@@ -164,7 +161,7 @@ function restaurantAddFunc(){
       }
     })
     .then(function(response){
-        newRestaurantPK = response.id;
+        var newRestaurantPK = response.data.id;
 
         // 메뉴 콤보 등록
         axios({
@@ -172,12 +169,12 @@ function restaurantAddFunc(){
           url: "http://localhost:8000/api/menucombo/",
           headers: {'Content-Type': 'application/json'},
           data: {
-            "menu_combo": r_menu.val(),
+            "menu_combo": r_menu.val().join('_') ,
             "restaurant": newRestaurantPK
           }
         })
         .then(function(response){
-            newMenuComboPK = response.id;
+            var newMenuComboPK = response.data.id;
 
             // 메뉴 레이팅 등록
             axios({
@@ -187,11 +184,12 @@ function restaurantAddFunc(){
               data: {
                 "menu_rate": u_rate.val(),
                 "restaurant": newRestaurantPK,
-                "menucombo": newMenuComboPK
+                "menucombo": newMenuComboPK,
+                "comment": u_memo.val()
               }
             })
             .then(function(response){
-                newMenuComboPK = response.id;
+                window.location.reload();
             });
         });
     });
