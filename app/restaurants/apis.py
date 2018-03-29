@@ -30,10 +30,17 @@ class RatingView(APIView):
 
     def post(self, request, format=None):
         menu_rate = request.data['menu_rate']
+        comment = request.data['comment']
         menucombo = request.data['menucombo']
         restaurant = request.data['restaurant']
+        restaurant_lat = float(request.data['lat'])
+        restaurant_lng = float(request.data['lng'])
 
-        r, _ = Restaurant.objects.get_or_create(name=restaurant)
+        r, _ = Restaurant.objects.get_or_create(
+            name=restaurant,
+            lat=restaurant_lat,
+            lng=restaurant_lng,
+        )
 
         menu_list = sorted(menucombo.split(', '))
         for menu in menu_list:
@@ -51,6 +58,7 @@ class RatingView(APIView):
             restaurant=r,
             menucombo=m,
             menu_rate=menu_rate,
+            comment=comment,
         )
 
         # menu_combo 평가 평균 계산

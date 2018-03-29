@@ -61,7 +61,7 @@ function loadRestaurants(){
                     label: restaurant.name,
                     position: {lat: restaurant.lat, lng: restaurant.lng},
                     restaurantPk: restaurant.id,
-                    rating: restaurant._restaurant_rate
+                    rating: restaurant.restaurant_rate
                 }
             });
         },
@@ -149,50 +149,69 @@ function restaurantAddFunc(){
     }
 
 
-    // 음식점 등록
+    //음식점 등록
     axios({
       method: 'post',
-      url: "http://localhost:8000/api/restaurant/",
+      url: "http://localhost:8000/api/rating/",
       headers: {'Content-Type': 'application/json'},
       data: {
-        "name": r_name.val(),
+        "restaurant": r_name.val(),
         "lat": yogi.userMarker.getPosition().toJSON().lat,
-        "lng": yogi.userMarker.getPosition().toJSON().lng
+        "lng": yogi.userMarker.getPosition().toJSON().lng,
+        "menucombo": r_menu.val().join(', '),
+        "menu_rate": u_rate.val(),
+        "comment": u_memo.val()
       }
     })
     .then(function(response){
-        var newRestaurantPK = response.data.id;
-
-        // 메뉴 콤보 등록
-        axios({
-          method: 'post',
-          url: "http://localhost:8000/api/menucombo/",
-          headers: {'Content-Type': 'application/json'},
-          data: {
-            "menu_combo": r_menu.val().join('_') ,
-            "restaurant": newRestaurantPK
-          }
-        })
-        .then(function(response){
-            var newMenuComboPK = response.data.id;
-
-            // 메뉴 레이팅 등록
-            axios({
-              method: 'post',
-              url: "http://localhost:8000/api/rating/",
-              headers: {'Content-Type': 'application/json'},
-              data: {
-                "menu_rate": u_rate.val(),
-                "restaurant": newRestaurantPK,
-                "menucombo": newMenuComboPK,
-                "comment": u_memo.val()
-              }
-            })
-            .then(function(response){
-                window.location.reload();
-            });
-        });
+        window.location.reload();
     });
+
+
+//    // 음식점 등록
+//    axios({
+//      method: 'post',
+//      url: "http://localhost:8000/api/restaurant/",
+//      headers: {'Content-Type': 'application/json'},
+//      data: {
+//        "name": r_name.val(),
+//        "lat": yogi.userMarker.getPosition().toJSON().lat,
+//        "lng": yogi.userMarker.getPosition().toJSON().lng
+//      }
+//    })
+//    .then(function(response){
+//        var newRestaurantPK = response.data.id;
+//
+//        // 메뉴 콤보 등록
+//        axios({
+//          method: 'post',
+//          url: "http://localhost:8000/api/menucombo/",
+//          headers: {'Content-Type': 'application/json'},
+//          data: {
+//            "menu_combo": r_menu.val().join('_') ,
+//            "restaurant": newRestaurantPK
+//          }
+//        })
+//        .then(function(response){
+//            var newMenuComboPK = response.data.id;
+//
+//            // 메뉴 레이팅 등록
+//            axios({
+//              method: 'post',
+//              url: "http://localhost:8000/api/rating/",
+//              headers: {'Content-Type': 'application/json'},
+//              data: {
+//                "menu_rate": u_rate.val(),
+//                "restaurant": newRestaurantPK,
+//                "menucombo": newMenuComboPK,
+//                "comment": u_memo.val()
+//              }
+//            })
+//            .then(function(response){
+//                window.location.reload();
+//            });
+//        });
+//    });
 
 
 
