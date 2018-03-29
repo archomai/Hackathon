@@ -18,12 +18,17 @@ class MenuListSerializer(serializers.ModelSerializer):
 
 
 class MenuComboSerializer(serializers.ModelSerializer):
+    # restaurant = RestaurantSerializer()
+
     class Meta:
         model = MenuCombo
         fields = '__all__'
 
 
 class RatingSerializer(serializers.ModelSerializer):
+    restaurant = RestaurantSerializer()
+    menucombo = MenuComboSerializer()
+
     class Meta:
         model = Rating
         fields = '__all__'
